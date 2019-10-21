@@ -91,7 +91,7 @@ void Guzik::update(bool debug) {
 					m_czas_n=millis();
 				} else if(m_state_before_grace_period == click_state::pressed) {
 					change_state(click_state::pulled, debug);
-					m_event_click(m_click_event_arg);
+					m_event_click();
 				} else if(m_state_before_grace_period == click_state::pressed_after_push_event) {
 					change_state(click_state::pulled, debug);
 				}
@@ -107,10 +107,10 @@ void Guzik::update(bool debug) {
 		if(read) {
 			if(millis() - CZAS_TRZYMANIA > m_czas_n) {
 				change_state(click_state::pressed_after_push_event, debug);
-				if(m_event_hold) {
-					m_event_hold(m_hold_event_arg);
+				if(m_use_hold) {
+					m_event_hold();
 				} else {
-					m_event_click(m_click_event_arg);
+					m_event_click();
 				}
 			}
 		} else {
@@ -123,16 +123,25 @@ void Guzik::update(bool debug) {
 	}
 }
 
-Guzik::Guzik(int pin,
-		void(*event_click)(void*),  void * event_click_arg,
-		void(*event_hold)(void *), void * event_hold_arg,
-		bool analog_pin):
-			m_pin(pin), m_analog_pin(analog_pin),
-			m_event_click(event_click), m_click_event_arg(event_click_arg),
-			m_event_hold(event_hold), m_hold_event_arg(event_hold_arg),
-			m_czas_n(0), m_fast_t(millis()),
-			m_state(click_state::grace_period),
-			m_state_before_grace_period(click_state::pulled)
-{
-		pinMode(pin, INPUT);
+void Guzik::setupUsingDigitalPin(int pin) {
+	m_pin = pin;
+	m_analog_pin = false;
+}
+
+void Guzik::setupUsingAnalogPin(int pin) {
+	m_pin = pin;
+	m_analog_pin = true;
+}
+
+void Guzik::setupClickHandler(TransientFunction<void(void)> event_click) {
+	m_event_click = event_click;
+}
+
+void Guzik::setupHoldHandler(TransientFunction<void(void)> event_hold) {
+	m_event_hold = event_hold;
+	m_use_hold = true;
+}
+
+void nofun() {
+
 }

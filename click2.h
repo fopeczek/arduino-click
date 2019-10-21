@@ -1,26 +1,28 @@
 #pragma once
-
+#include "function.h"
 enum class click_state {pulled, grace_period, pressed, pressed_after_push_event};
+
+void nofun();
 
 class Guzik {
 public:
-	Guzik(int pin,
-			void(*event_click)(void*),  void * event_click_arg=0,
-			void(*event_hold)(void *)=0, void * event_hold_arg=0,
-			bool analog_pin=false);
+	Guzik() : m_use_hold(false), m_pin(-1), m_analog_pin(false), m_event_click(nofun), m_event_hold(nofun) {} // @suppress("Class members should be properly initialized")
 	void update(bool debug=false);
+	void setupUsingDigitalPin(int pin);
+	void setupUsingAnalogPin(int pin);
+	void setupClickHandler(TransientFunction<void(void)> event_click);
+	void setupHoldHandler(TransientFunction<void(void)> event_hold);
 
 private:
 	void change_state(click_state new_state, bool debug);
 	bool was_button_pressed_before_grace_period();
+	bool m_use_hold;
 
 	int m_pin;
 	bool m_analog_pin=false;
 
-	void (* m_event_click)(void*)=0;
-	void * m_click_event_arg;
-	void (* m_event_hold)(void*)=0;
-	void * m_hold_event_arg;
+	TransientFunction<void(void)> m_event_click;
+	TransientFunction<void(void)> m_event_hold;
 //	void (* m_event_doubleclick)(void)=0;
 
 	unsigned long m_czas_n; //timer for push_event

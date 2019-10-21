@@ -1,10 +1,12 @@
-#include "click.h"
+#include "click2.h"
 #include "Arduino.h"
+#include "function.h"
 
-guzikContext gc;
+Guzik g;
 
-void onClick() {
-	Serial.print ("Click!\n");
+void onClick(String c) {
+	Serial.print (c);
+	Serial.print ("\n");
 }
 
 void onDoubleClick() {
@@ -18,10 +20,11 @@ void onHold(){
 void setup()
 {
 	Serial.begin(9600);
-	set_guzik(&gc, 2, onClick, onDoubleClick, onHold);
+	g.setupUsingDigitalPin(2);
+	g.setupClickHandler([](){onClick("Click!");} );
 }
 
 void loop()
 {
-	update_guzik(&gc);
+	g.update(1);
 }
