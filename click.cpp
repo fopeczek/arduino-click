@@ -125,11 +125,13 @@ void Guzik::update(bool debug) {
 
 void Guzik::setupUsingDigitalPin(int pin) {
 	m_pin = pin;
+	pinMode(pin,INPUT);
 	m_analog_pin = false;
 }
 
 void Guzik::setupUsingAnalogPin(int pin) {
 	m_pin = pin;
+	pinMode(pin,INPUT);
 	m_analog_pin = true;
 }
 

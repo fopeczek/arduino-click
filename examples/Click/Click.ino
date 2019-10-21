@@ -1,30 +1,25 @@
-#include "click.h"
-#include "Arduino.h"
-#include "function.h"
+#include <Arduino.h>
+#include <click.h>
 
 Guzik g;
+int pin = 2;
 
-void onClick(String c) {
-	Serial.print (c);
-	Serial.print ("\n");
+void Click(){
+    Serial.print("Click!\n");
 }
 
-void onDoubleClick() {
-	//nothing
+void HoldClick() {
+    Serial.print("Hold click!\n");
 }
 
-void onHold(){
-	Serial.print ("hold\n");
+void setup() { 
+    g.setupClickHandler(Click);
+    g.setupHoldHandler(HoldClick);
+    g.setupUsingDigitalPin(pin);
+    Serial.begin(9600);
+    Serial.print("Setup complete!!\n");
 }
 
-void setup()
-{
-	Serial.begin(9600);
-	g.setupUsingDigitalPin(2);
-	g.setupClickHandler([](){onClick("Click!");} );
-}
-
-void loop()
-{
-	g.update(1);
-}
+void loop() {
+    g.update(false);
+} 
