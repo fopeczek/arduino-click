@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "click2.h"
+#include "click.h"
 //#include <Streaming.h>
 
 #define CZAS_TRZYMANIA 1000
@@ -133,11 +133,11 @@ void Guzik::setupUsingAnalogPin(int pin) {
 	m_analog_pin = true;
 }
 
-void Guzik::setupClickHandler(TransientFunction<void(void)> event_click) {
+void Guzik::setupClickHandler(FunctionObject<void(void)> event_click) {
 	m_event_click = event_click;
 }
 
-void Guzik::setupHoldHandler(TransientFunction<void(void)> event_hold) {
+void Guzik::setupHoldHandler(FunctionObject<void(void)> event_hold) {
 	m_event_hold = event_hold;
 	m_use_hold = true;
 }

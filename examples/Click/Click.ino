@@ -1,4 +1,4 @@
-#include "click2.h"
+#include "click.h"
 #include "Arduino.h"
 #include "function.h"
 

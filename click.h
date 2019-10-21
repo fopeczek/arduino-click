@@ -1,5 +1,5 @@
 #pragma once
-#include "function.h"
+#include "function_objects.h"
 enum class click_state {pulled, grace_period, pressed, pressed_after_push_event};
 
 void nofun();
@@ -10,8 +10,8 @@ public:
 	void update(bool debug=false);
 	void setupUsingDigitalPin(int pin);
 	void setupUsingAnalogPin(int pin);
-	void setupClickHandler(TransientFunction<void(void)> event_click);
-	void setupHoldHandler(TransientFunction<void(void)> event_hold);
+	void setupClickHandler(FunctionObject<void(void)> event_click);
+	void setupHoldHandler(FunctionObject<void(void)> event_hold);
 
 private:
 	void change_state(click_state new_state, bool debug);
@@ -21,8 +21,8 @@ private:
 	int m_pin;
 	bool m_analog_pin=false;
 
-	TransientFunction<void(void)> m_event_click;
-	TransientFunction<void(void)> m_event_hold;
+	FunctionObject<void(void)> m_event_click;
+	FunctionObject<void(void)> m_event_hold;
 //	void (* m_event_doubleclick)(void)=0;
 
 	unsigned long m_czas_n; //timer for push_event
