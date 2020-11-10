@@ -1,0 +1,23 @@
+{
+"name": "mik_blink",
+"version": "0.0.1",
+"repository":
+{
+    "type": "git",
+    "url": "https://github.com/fopeczek/mik_click.git"
+},
+"description": "Simple led blinker.",
+"authors": [
+{
+	"name": "Mikołaj Krawczuk",
+	"email": "mikolaj@statystyka.net"
+},
+{
+	"name": "Adam Ryczkowski",
+	"email": "adam@statystyka.net"
+}],
+"license": "Apache-2.0",
+"dependencies": {
+	"silent/timer":"^0.1.2"
+}
+}
